@@ -54,6 +54,7 @@ function init() {
     }
     updateBoardView()
     score=0
+    $("#score").text(score)
 }
 function updateBoardView() {
     $(".number-cell").remove()
