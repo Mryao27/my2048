@@ -152,6 +152,35 @@ $(document).keydown(function (event) {
     }
 })
 
+function GetSlideAngle(x, y) {
+    return Math.atan2(y, x) * 180 / Math.PI;
+}
+//根据起点和终点返回方向 1：向上，2：向下，3：向左，4：向右,0：未滑动
+function GetSlideDirection(startx, starty, endx, endy) {
+    var deltay = starty - endy;
+    var deltax = endx - startx;
+    var result = 0;
+
+    //如果滑动距离太短
+    if(Math.abs(deltax)<0.3*documentWidth && Math.abs(deltay)<0.3*documentWidth){
+        return result
+    }
+
+    var angle = GetSlideAngle(deltax, deltay);
+    if(angle >= -45 && angle < 45) {
+        result = 4;
+    }else if (angle >= 45 && angle < 135) {
+        result = 1;
+    }else if (angle >= -135 && angle < -45) {
+        result = 2;
+    }
+    else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+        result = 3;
+    }
+
+    return result;
+}
+
 document.addEventListener("touchstart",function (event) {
     startx=event.touches[0].pageX
     starty=event.touches[0].pageY
@@ -160,49 +189,42 @@ document.addEventListener("touchmove",function (event) {
     event.preventDefault()
 })
 document.addEventListener("touchend",function (event) {
-    endx=event.changedTouches[0].pageY
+    endx=event.changedTouches[0].pageX
     endy=event.changedTouches[0].pageY
 
-    var deltax=endx-startx
-    var deltay=endy-starty
-    if(Math.abs(deltax)<0.3*documentWidth && Math.abs(deltay)<0.3*documentWidth){
-        return
-    }
-    //x轴方向
-    if(Math.abs(deltax)>=Math.abs(deltay)){
-        if(deltax>0){
-            //move right
-            if(moveRight()){
-                setTimeout("generateOneNumber()",210)
-                setTimeout("isgameover()",300)
-            }
-        }else{
-            //move left
-            if(moveLeft()){
-                setTimeout("generateOneNumber()",210)
-                setTimeout("isgameover()",300)
-            }
-        }
-    }
-    //y轴方向
-    else{
-        if(deltay>0){
-            //move down
+    var direction = GetSlideDirection(startx, starty, endx, endy);
+    switch(direction) {
+        case 0:
+            break;
+        case 1://up
+            if(moveUp()){
+                            setTimeout("generateOneNumber()",210)
+                            setTimeout("isgameover()",300)
+                        }
+            break;
+        case 2://down
             if(moveDown()){
                 setTimeout("generateOneNumber()",210)
                 setTimeout("isgameover()",300)
             }
-        }else{
-            //move up
-            if(moveUp()){
+            break;
+        case 3://left
+            if(moveLeft()){
                 setTimeout("generateOneNumber()",210)
                 setTimeout("isgameover()",300)
             }
-        }
-
+            break;
+        case 4://right
+            if(moveRight()){
+                setTimeout("generateOneNumber()",210)
+                setTimeout("isgameover()",300)
+            }
+            break;
+        default:
     }
 
 })
+
 function isgameover() {
     if(nospace(board)&&nomove(board)){
         gameover()
