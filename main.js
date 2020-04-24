@@ -27,9 +27,9 @@ function prepareForMobile() {
     $(".grid-cell").css("border-radius",0.02*cellSideLength)
 }
 function newgame() {
-    //³õÊ¼»¯ÆåÅÌ¸ñ
+    //åˆå§‹åŒ–æ£‹ç›˜æ ¼
     init()
-    //ÔÚËæ»úÁ½¸ö¸ñ×ÓÉú³ÉÊı×Ö
+    //åœ¨éšæœºä¸¤ä¸ªæ ¼å­ç”Ÿæˆæ•°å­—
     generateOneNumber()
     setTimeout("generateOneNumber()",50)
 
@@ -86,7 +86,7 @@ function generateOneNumber() {
     if(nospace(board))
         return false
 
-        //Ëæ»úÒ»¸öÎ»ÖÃ
+        //éšæœºä¸€ä¸ªä½ç½®
         var randx=parseInt(Math.floor(Math.random()*4))
         var randy=parseInt(Math.floor(Math.random()*4))
     var times=0
@@ -109,9 +109,9 @@ function generateOneNumber() {
             }
         }
     }
-        //Ëæ»úÒ»¸öÊı×Ö(2»òÕß4)
+        //éšæœºä¸€ä¸ªæ•°å­—(2æˆ–è€…4)
         var randNumber=Math.random()< 0.5 ? 2 : 4
-        //ÔÚËæ»úÎ»ÖÃÉÏÏÔÊ¾Ëæ»úÊı×Ö
+        //åœ¨éšæœºä½ç½®ä¸Šæ˜¾ç¤ºéšæœºæ•°å­—
         board[randx][randy]=randNumber
         showNumberWithAnimation(randx,randy,randNumber)
         return true
@@ -156,6 +156,9 @@ document.addEventListener("touchstart",function (event) {
     startx=event.touches[0].pageX
     starty=event.touches[0].pageY
 })
+document.addEventListener("touchmove",function (event) {
+    event.preventDefault()
+})
 document.addEventListener("touchend",function (event) {
     endx=event.changedTouches[0].pageY
     endy=event.changedTouches[0].pageY
@@ -165,7 +168,7 @@ document.addEventListener("touchend",function (event) {
     if(Math.abs(deltax)<0.3*documentWidth && Math.abs(deltay)<0.3*documentWidth){
         return
     }
-    //xÖá·½Ïò
+    //xè½´æ–¹å‘
     if(Math.abs(deltax)>=Math.abs(deltay)){
         if(deltax>0){
             //move right
@@ -181,7 +184,7 @@ document.addEventListener("touchend",function (event) {
             }
         }
     }
-    //yÖá·½Ïò
+    //yè½´æ–¹å‘
     else{
         if(deltay>0){
             //move down
