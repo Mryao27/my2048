@@ -10,6 +10,13 @@ header{
     width: 100%;
     text-align: center;
 }
+.intro{
+    position: fixed;
+    left: 2%;
+    top: 0;
+    width: 30%;
+    color: #000000;
+}
 header h1{
     font-family: Arial;
     font-size: 40px;
